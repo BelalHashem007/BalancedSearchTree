@@ -25,9 +25,15 @@ function tree() {
     return root;
   }
 
-  function insert(value) {
-    const nodeToBeInserted = node(value);
-    if (root == null) return (root = nodeToBeInserted);
+  function insert(value, tmp =root) {
+    if (root == null) return buildTree([value]);
+    if (tmp == null) return node(value);
+    if (tmp.data ==value) return tmp;
+    if (tmp.data >value) tmp.leftNode = insert(value,tmp.leftNode);
+    else if (tmp.data < value) tmp.rightNode = insert(value,tmp.rightNode);
+
+    return tmp;
+    /*if (root == null) return (root = nodeToBeInserted); // iterativeMethod!
     let tmp = root;
     while (true) {
       if (value > tmp.data) {
@@ -45,11 +51,33 @@ function tree() {
       } else if ((value = tmp.data)) {
         return console.log("Data already exists.");
       }
-    }
+    }*/
   }
 
-  function deleteItem(value) {
-    let tmp = root;
+  function getSuccessor(node) {
+    node = node.rightNode;
+    while (node.leftNode !== null && node !== null){
+      node = node.leftNode;
+    }
+    return node;
+  }
+  function deleteItem(value, tmp = root) {
+    if (tmp == null) return tmp;
+    if (tmp.data > value) tmp.leftNode = deleteItem(value,tmp.leftNode);
+    else if (tmp.data < value) tmp.rightNode = deleteItem(value,tmp.rightNode);
+    else {
+      if (tmp.leftNode == null) return tmp.rightNode;
+      else if (tmp.rightNode ==null) return tmp.leftNode;
+      else {
+        let succ = getSuccessor(tmp);
+        tmp.data = succ.data;
+        tmp.rightNode = deleteItem(succ.data,tmp.rightNode);
+      }
+    }
+    return tmp;
+
+
+   /* let tmp = root; iterativeMethod!
     if (root.data == value && root.rightNode == null && root.leftNode == null) {
       root = null;
       return;
@@ -147,7 +175,7 @@ function tree() {
           }
         }
       }
-    }
+    }*/
   }
 
   const prettyPrint = (node = root, prefix = "", isLeft = true) => {
