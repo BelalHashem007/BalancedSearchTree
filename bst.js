@@ -225,6 +225,39 @@ function tree() {
     }*/
   }
 
-  return { buildTree, prettyPrint, insert, deleteItem, find, levelOrder };
+  function preOrder(func, node = root) {
+    if (!func) throw new Error("Function doesn`t exist");
+    if (node == null) return;
+    func(node);
+    preOrder(func, node.leftNode);
+    preOrder(func, node.rightNode);
+  }
+
+  function inOrder(func, node = root) {
+    if (!func) throw new Error("Function doesn`t exist");
+    if (node == null) return;
+    inOrder(func, node.leftNode);
+    func(node);
+    inOrder(func, node.rightNode);
+  }
+  function postOrder(func, node = root) {
+    if (!func) throw new Error("Function doesn`t exist");
+    if (node == null) return;
+    postOrder(func, node.leftNode);
+    postOrder(func, node.rightNode);
+    func(node);
+  }
+
+  return {
+    buildTree,
+    prettyPrint,
+    insert,
+    deleteItem,
+    find,
+    levelOrder,
+    preOrder,
+    inOrder,
+    postOrder,
+  };
 }
 export { tree };

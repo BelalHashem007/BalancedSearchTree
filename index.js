@@ -6,7 +6,6 @@ newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 newTree2.buildTree([50, 30, 70, 20, 40, 60, 80, 10, 25, 35, 45, 55, 65, 75, 85]);
 
 newTree2.prettyPrint();
-newTree2.levelOrder((node)=> {
-    node.data = node.data*2;
+newTree2.postOrder((node)=> {
+    console.log(node.data);
 })
-newTree2.prettyPrint();
