@@ -247,6 +247,29 @@ function tree() {
     postOrder(func, node.rightNode);
     func(node);
   }
+  function depth(node, tmp=root, depthLength=0){
+    if (tmp == null) return -1;
+    if (node == null) return -1;
+    if (tmp.data > node.data) {
+      return depth(node, tmp.leftNode, depthLength+1)
+    }
+    else if (tmp.data < node.data) {
+      return depth(node,tmp.rightNode,depthLength+1);
+    }
+    else {
+      return depthLength;
+    }
+  }
+
+  function getHeight(node = root,height=0) {
+    if (node== null) return -1;
+    if (node.leftNode == null && node.rightNode ==null){
+      return height;
+    }
+      const heightOfRightSubTree =  getHeight(node.rightNode,height+1);
+      const heightOfLeftSubTree = getHeight(node.leftNode,height+1);
+      return Math.max(heightOfLeftSubTree,heightOfRightSubTree);
+  }
 
   return {
     buildTree,
@@ -258,6 +281,8 @@ function tree() {
     preOrder,
     inOrder,
     postOrder,
+    depth,
+    getHeight,
   };
 }
 export { tree };
