@@ -247,28 +247,46 @@ function tree() {
     postOrder(func, node.rightNode);
     func(node);
   }
-  function depth(node, tmp=root, depthLength=0){
+  function depth(node, tmp = root, depthLength = 0) {
     if (tmp == null) return -1;
     if (node == null) return -1;
     if (tmp.data > node.data) {
-      return depth(node, tmp.leftNode, depthLength+1)
-    }
-    else if (tmp.data < node.data) {
-      return depth(node,tmp.rightNode,depthLength+1);
-    }
-    else {
+      return depth(node, tmp.leftNode, depthLength + 1);
+    } else if (tmp.data < node.data) {
+      return depth(node, tmp.rightNode, depthLength + 1);
+    } else {
       return depthLength;
     }
   }
 
-  function getHeight(node = root,height=0) {
-    if (node== null) return -1;
-    if (node.leftNode == null && node.rightNode ==null){
+  function getHeight(node = root, height = 0) {
+    if (node == null) return -1;
+    if (node.leftNode == null && node.rightNode == null) {
       return height;
     }
-      const heightOfRightSubTree =  getHeight(node.rightNode,height+1);
-      const heightOfLeftSubTree = getHeight(node.leftNode,height+1);
-      return Math.max(heightOfLeftSubTree,heightOfRightSubTree);
+    const heightOfRightSubTree = getHeight(node.rightNode, height + 1);
+    const heightOfLeftSubTree = getHeight(node.leftNode, height + 1);
+    return Math.max(heightOfLeftSubTree, heightOfRightSubTree);
+  }
+
+  function isBalanced(node=root) {
+    if (node == null) return true;
+    let heightDiff;
+    heightDiff = getHeight(node.leftNode) - getHeight(node.rightNode);
+    if (heightDiff <= 1 && heightDiff >= -1) {}
+    else  return false;
+    if (!isBalanced(node.leftNode) || !isBalanced(node.rightNode)) return false;
+    return true;
+  }
+
+  function rebalance(){
+    if (isBalanced()) return "Tree is balanced!"
+    let arr = []
+    console.log(arr)
+    levelOrder(node => {
+      arr.push(node.data);
+    })
+    buildTree(arr);
   }
 
   return {
@@ -283,6 +301,8 @@ function tree() {
     postOrder,
     depth,
     getHeight,
+    isBalanced,
+    rebalance,
   };
 }
 export { tree };
